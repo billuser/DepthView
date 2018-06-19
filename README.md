@@ -50,3 +50,4 @@ mergeDepthView.setDepthViewHeigh(500); //深度圖高度
 
 ```
 
+![](https://github.com/billuser/DepthView/blob/master/photo/Webp.net-gifmaker.gif)
