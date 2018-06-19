@@ -20,8 +20,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:layout_gravity="right"
-            android:gravity="right"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:id="@+id/lineara">
 
         </LinearLayout>

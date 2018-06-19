@@ -3,12 +3,10 @@ package com.be.you.depthchart;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.be.you.depthchart.api.DepthData;
 import com.be.you.depthchart.depthchart.DepthDataObject;
-import com.be.you.depthchart.depthchart.DepthView;
 import com.be.you.depthchart.depthchart.MergeDepthView;
 
 import org.json.JSONArray;
@@ -16,7 +14,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -36,11 +33,6 @@ public class MainActivity extends AppCompatActivity {
         lineara = findViewById(R.id.lineara);
         depthView = new MergeDepthView(this,true);
         lineara.addView(depthView);
-
-
-//        JsonHuobiDepth jsonHuobiDepth = new JsonHuobiDepth();
-//        Thread thread = new Thread(jsonHuobiDepth);
-//        thread.start();
 
         newDepth();
 
@@ -108,11 +100,10 @@ public class MainActivity extends AppCompatActivity {
                 obj.setPrice(Float.valueOf(price));
                 listDepthSell.add(obj);
             }
-
-
-            depthView.setDepthBg("#ffffff");
             depthView.setMdata(listDepthBuy, listDepthSell);
-
+            depthView.setDepthBg("#ffffff");
+            depthView.setYaxisTextSize(20);
+            depthView.setXaxisTextSize(20);
         } catch (JSONException e) {
             e.printStackTrace();
         }

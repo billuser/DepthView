@@ -35,6 +35,7 @@ public class MergeDepthView extends View {
     private Paint mPaint_bg;
     //灰色网格的画笔
     private Paint mPaint_gridline;
+
     private Paint mPaint_gridText;
     //文本数据的画笔
     private Paint mPaint_text;
@@ -107,6 +108,48 @@ public class MergeDepthView extends View {
         init(context);
     }
 
+    /**
+     * 設定y軸文字顏色
+     * @param color
+     */
+    public void setYaxisTextColor(String color) {
+        mPaint_gridText.setColor(Color.parseColor(color));
+    }
+
+    /**
+     * 設定y軸文字大小
+     * @param size
+     */
+    public void setYaxisTextSize(float size){
+        mPaint_gridText.setTextSize(size);
+    }
+
+    /**
+     * 設定X軸文字顏色
+     * @param color
+     */
+    public void setXaxisTextColor(String color){
+        mPaint_text.setColor(Color.parseColor(color));
+    }
+
+    /**
+     * 設定X軸文字大小
+     * @param size
+     */
+    public void setXaxisTextSize(float size){
+        mPaint_text.setTextSize(size);
+    }
+
+    /**
+     * 設定Y軸線顏色
+     * @param color
+     */
+    public void setYaxisLineColor(String color){
+        mPaint_gridline.setColor(Color.parseColor(color));
+    }
+
+
+
     private void init(Context context) {
         mapX = new HashMap<>();
         mapY = new HashMap<>();
@@ -147,7 +190,6 @@ public class MergeDepthView extends View {
 
                 for(float key : mapX.keySet()){
                     if(key < e.getX() && key + 50 > e.getX()){
-//                   Log.e("bbbbcc", " " + mapX.get(key) + " mCanvas " +mCanvas);
 
 //                   mCanvas.drawText(String.valueOf(mapX.get(key)),
 //                           key,
@@ -172,8 +214,6 @@ public class MergeDepthView extends View {
 
 
     public void setMdata(List<DepthDataObject> mdataBuy, List<DepthDataObject> mdataSell) {
-//        this.mdata = mdata;
-
         buyPrice = new ArrayList<>();
         priceSortBuy = mdataBuy;
         dataBuy = new ArrayList<>();
@@ -215,7 +255,6 @@ public class MergeDepthView extends View {
         //調整圖表高度
         maxVolume = Collections.max(arrVolume);
         String count = String.valueOf((int)maxVolume);
-//            max_value = (int)maxVolume + (int)Math.pow(10, (count.length() - 1));
         max_value = (int)maxVolume;
 
         priceSortSell = mdataSell;
@@ -245,14 +284,9 @@ public class MergeDepthView extends View {
 
                 volsell += mdataSell.get(i).getVolume();
             }else{
-//                if(i == 0){
-//                    volsell += mdataSell.get(0).getVolume();
-//                }else{
-                    volsell += mdataSell.get(i + 1).getVolume();
-//                }
+                volsell += mdataSell.get(i + 1).getVolume();
             }
             obj.setVolume(volsell);
-//            obj.setPrice(mdataSell.get(i + 1).getPrice());
             arrSellVolume.add(volsell);
             dataSell.add(obj);
         }
@@ -298,7 +332,9 @@ public class MergeDepthView extends View {
     }
 
 
-    //顯示掛買折線圖
+    /**
+     * 顯示掛買折線圖
+     */
     private void displayBuy(Canvas canvas){
         mpathBuy.reset();
         for (int i = 0; i < dataBuy.size(); i++){
@@ -336,14 +372,6 @@ public class MergeDepthView extends View {
             float y = heigh - brokenline_bottom - (heigh - brokenline_bottom) * dataBuy.get(i).getVolume() / max_value;
             mapY.put(y, dataBuy.get(i).getVolume());
             mapX.put(x, dataBuy.get(i).getVolume());
-
-//            canvas.drawText(data,
-//                    gridspace_width * i + count,
-//                    heigh - brokenline_bottom - (heigh - brokenline_bottom) * mdata.get(i).getVolume()/max_value - mPaint_brokenline.measureText(data),
-//                    mPaint_brokenline);
-
-            String date = MyBigDecimal.getValue(String.valueOf(dataBuy.get(i).getPrice()));
-
             //x軸數值顯示
             String data = String.valueOf(buyPrice.get(0));
             if(i == 1 || i == (dataBuy.size() - 1) || (i == (dataBuy.size() - 1)/2)){
@@ -389,13 +417,12 @@ public class MergeDepthView extends View {
 //            spacingSell = 0;
 
         }
-
-
-
         canvas.drawPath(mpathBuy,mPaint_path_buy);
     }
 
-    //顯示掛賣折線圖
+    /**
+     * 顯示掛賣折線圖
+     */
     private void displaySell(Canvas canvas){
         mpath.reset();
         for (int i = 0; i < dataSell.size(); i++){
@@ -413,12 +440,6 @@ public class MergeDepthView extends View {
                     , heigh - brokenline_bottom, beelinePaint);
 
             if (i != dataSell.size() - 1){ //深度圖數組繪製
-
-//                if(i == 0){
-//                    canvas.drawText("" + dataSell.get(i).getVolume(), gridspace_width * i + count + spacingSell,
-//                            heigh - brokenline_bottom - (heigh - brokenline_bottom) * dataSell.get(i).getVolume() / max_value,
-//                            mPaint_text);
-//                }
 
                 canvas.drawLine((gridspace_width * i + count) + spacingSell,
                         heigh - brokenline_bottom - (heigh - brokenline_bottom) * dataSell.get(i).getVolume() / max_value,
@@ -493,6 +514,7 @@ public class MergeDepthView extends View {
         int screenDpi = displayMetrics.densityDpi;
         if(screenDpi == 480){
             gridspace_width = 3; //螢幕解析度不同　需更改參數
+
         }else{
             gridspace_width = 4; //螢幕解析度不同　需更改參數
         }
@@ -503,7 +525,7 @@ public class MergeDepthView extends View {
         }
         else{
             //根据数据的条数设置宽度
-            width = gridspace_width * dataBuy.size() + gridspace_width * dataSell.size();
+            width = gridspace_width * dataBuy.size() + gridspace_width * dataSell.size()+ 25;
 //            width = widthScreen / 2;
         }
 
