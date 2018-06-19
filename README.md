@@ -19,7 +19,7 @@ allprojects {
 #### Add the dependency <br>
 ```
 dependencies {
-       implementation 'com.github.billuser:DepthView:v1.3'<br>
+       implementation 'com.github.billuser:DepthView:v1.3'
 }
 ```
 
