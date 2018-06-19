@@ -62,7 +62,6 @@ public class MergeDepthView extends View {
 
     private final int count = 10;
     private int max_value = 11000;
-    private boolean isBuy;
     private HashMap<Float, Float> mapX;
     private HashMap<Float, Float> mapY;
     private Canvas mCanvas;
@@ -82,10 +81,9 @@ public class MergeDepthView extends View {
         return true;
     }
 
-    public MergeDepthView(Context context, boolean isbuy) {
+    public MergeDepthView(Context context) {
         super(context);
         mContext = context;
-        isBuy = isbuy;
         init(context);
 
     }
