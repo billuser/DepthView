@@ -1,9 +1,9 @@
-apply plugin: 'com.android.application'
-
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.be.you.depthchart"
+//        applicationId "com.be.you.depthchart"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
