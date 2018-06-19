@@ -3,13 +3,10 @@ package com.be.you.depthchart;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 
 import com.be.you.depthchart.api.DepthData;
-import com.be.you.depthchart.api.JsonHuobiDepth;
 import com.be.you.depthchart.depthchart.DepthDataObject;
 import com.be.you.depthchart.depthchart.DepthView;
 import com.be.you.depthchart.depthchart.MergeDepthView;
@@ -18,9 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -39,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         LinearLayout linear = findViewById(R.id.linear);
         lineara = findViewById(R.id.lineara);
-        linearb = findViewById(R.id.linearb);
-        linearb.setVisibility(View.GONE);
         depthView = new MergeDepthView(this,true);
         lineara.addView(depthView);
 
@@ -127,62 +120,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void oldDepth(){
-        DepthView depthView = new DepthView(this, true);
-        DepthView depthViewa = new DepthView(this, false);
-        List<DepthDataObject> listDepthBuy = new ArrayList<>();
-        List<DepthDataObject> listDepthSell = new ArrayList<>();
 
-        try {
-            JSONObject jsonObject = new JSONObject(jsonData);
-            JSONObject jsonTick = jsonObject.optJSONObject("tick");
-            JSONArray arrBids = jsonTick.optJSONArray("bids");
-            JSONArray arrAsks = jsonTick.optJSONArray("asks");
-
-            for(int i = 0; i < arrBids.length(); i++){
-                DepthDataObject obj = new DepthDataObject();
-                String price = arrBids.getString(i).replace("[", "").replace("]", "").split(",")[0];
-                String volume = arrBids.getString(i).replace("[", "").replace("]", "").split(",")[1];
-                obj.setVolume(Float.valueOf(volume));
-                obj.setPrice(Float.valueOf(price));
-                listDepthBuy.add(obj);
-            }
-
-            for(int i = 0; i < arrAsks.length(); i++){
-                DepthDataObject obj = new DepthDataObject();
-                String price = arrAsks.getString(i).replace("[", "").replace("]", "").split(",")[0];
-                String volume = arrAsks.getString(i).replace("[", "").replace("]", "").split(",")[1];
-                obj.setVolume(Float.valueOf(volume));
-                obj.setPrice(Float.valueOf(price));
-                listDepthSell.add(obj);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        depthView.setMdata(listDepthBuy);
-        depthViewa.setMdata(listDepthSell);
-        lineara.addView(depthView);
-        linearb.addView(depthViewa);
-    }
-
-    public class compare implements Comparator<DepthDataObject> {
-        @Override
-        public int compare(DepthDataObject o1, DepthDataObject o2) {
-            float str1 = o1.getVolume();
-            float str2 = o2.getVolume();
-            if(str1 > str2)
-            {
-                return 1;
-            }else
-            if(str1 < str2)
-            {
-                return -1;
-            }else
-            {
-                return 0;
-            }
-        }
-    }
 }
