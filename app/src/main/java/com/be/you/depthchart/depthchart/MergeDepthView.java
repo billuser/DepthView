@@ -123,6 +123,14 @@ public class MergeDepthView extends View {
     }
 
     /**
+     * 設定深度圖高度
+     * @param mHeigh
+     */
+    public void setDepthViewHeigh(int mHeigh){
+        heigh = mHeigh;
+    }
+
+    /**
      * 設定X軸文字顏色
      * @param color
      */
@@ -526,8 +534,10 @@ public class MergeDepthView extends View {
             width = gridspace_width * dataBuy.size() + gridspace_width * dataSell.size()+ 25;
 //            width = widthScreen / 2;
         }
+        if(heigh == 0){
+            heigh = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
+        }
 
-        heigh = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
         brokenline_bottom = 50;
         gridspace_heigh = (heigh - brokenline_bottom)/lineCount;
         setMeasuredDimension(width, heigh);
