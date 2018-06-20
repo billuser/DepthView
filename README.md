@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/billuser/DepthView.svg)](https://jitpack.io/#billuser/DepthView)
+
 # DepthView
 虛擬貨幣深度圖<br>
 
