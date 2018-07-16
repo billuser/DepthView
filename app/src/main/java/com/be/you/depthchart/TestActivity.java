@@ -32,41 +32,44 @@ public class TestActivity extends AppCompatActivity {
         depthView = new MergeDepthView(this);
         lineara.addView(depthView);
 //        depthView.setDepthViewHeigh(800);
+        jsonData = DepthData.depthR;
         newDepth();
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Random ran = new Random();
-                int Value = ran.nextInt(7) + 1;
-                switch (Value){
-                    case 1:
-                        jsonData = DepthData.depthA;
-                        break;
-                    case 2:
-                        jsonData = DepthData.depthB;
-                        break;
-                    case 3:
-                        jsonData = DepthData.depthC;
-                        break;
-                    case 4:
-                        jsonData = DepthData.depthD;
-                        break;
-                    case 5:
-                        jsonData = DepthData.depthE;
-                        break;
-                    case 6:
-                        jsonData = DepthData.depthF;
-                        break;
-                    case 7:
-                        jsonData = DepthData.depthG;
-                        break;
-                }
-                newDepth();
-                handler.postDelayed(this, 5000);
-            }
-        }, 5000);
+
+
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Random ran = new Random();
+//                int Value = ran.nextInt(7) + 1;
+//                switch (Value){
+//                    case 1:
+//                        jsonData = DepthData.depthA;
+//                        break;
+//                    case 2:
+//                        jsonData = DepthData.depthB;
+//                        break;
+//                    case 3:
+//                        jsonData = DepthData.depthC;
+//                        break;
+//                    case 4:
+//                        jsonData = DepthData.depthD;
+//                        break;
+//                    case 5:
+//                        jsonData = DepthData.depthE;
+//                        break;
+//                    case 6:
+//                        jsonData = DepthData.depthF;
+//                        break;
+//                    case 7:
+//                        jsonData = DepthData.depthG;
+//                        break;
+//                }
+//                newDepth();
+//                handler.postDelayed(this, 5000);
+//            }
+//        }, 5000);
 
 
     }
@@ -102,6 +105,7 @@ public class TestActivity extends AppCompatActivity {
             depthView.setDepthBg("#ffffff");
             depthView.setYaxisTextSize(20);
             depthView.setXaxisTextSize(20);
+//            depthView.setGridspace_width(20);
         } catch (JSONException e) {
             e.printStackTrace();
         }

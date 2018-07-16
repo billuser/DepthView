@@ -81,6 +81,10 @@ public class MergeDepthView extends View {
         return true;
     }
 
+    public void setGridspace_width(int gridspace_width) {
+        this.gridspace_width = gridspace_width;
+    }
+
     public MergeDepthView(Context context) {
         super(context);
         mContext = context;
@@ -356,11 +360,6 @@ public class MergeDepthView extends View {
 
             if (i != dataBuy.size() - 1){ //深度圖數組繪製
 
-//                if(i == (dataBuy.size() - 2)){
-//                    canvas.drawText("" + dataBuy.get(i).getVolume(), gridspace_width * i + count,
-//                            heigh - brokenline_bottom - (heigh - brokenline_bottom) * dataBuy.get(i).getVolume() / max_value,
-//                            mPaint_text);
-//                }
 
                 canvas.drawLine(gridspace_width * i + count,
                         heigh - brokenline_bottom - (heigh - brokenline_bottom) * dataBuy.get(i).getVolume() / max_value,
@@ -514,25 +513,20 @@ public class MergeDepthView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//        int height = displayMetrics.heightPixels;
-        int screenDpi = displayMetrics.densityDpi;
-        if(screenDpi == 480){
-            gridspace_width = 3; //螢幕解析度不同　需更改參數
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        }else{
-            gridspace_width = 4; //螢幕解析度不同　需更改參數
-        }
 
+        DisplayMetrics monitorsize = new DisplayMetrics();
+        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(monitorsize);
+
+        gridspace_width = (width / (dataBuy.size() + dataSell.size()));
         if(dataBuy.size() == 0){
             width = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
-
-        }
-        else{
+        }else{
             //根据数据的条数设置宽度
-            width = gridspace_width * dataBuy.size() + gridspace_width * dataSell.size()+ 25;
-//            width = widthScreen / 2;
+//            width = gridspace_width * dataBuy.size() + gridspace_width * dataSell.size()+ 25;
+            width = monitorsize.widthPixels;
         }
         if(heigh == 0){
             heigh = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
