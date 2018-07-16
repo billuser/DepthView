@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/billuser/DepthView.svg)](https://jitpack.io/#billuser/DepthView)
+
 # DepthView
 虛擬貨幣深度圖<br>
 
@@ -19,7 +21,7 @@ allprojects {
 #### Add the dependency <br>
 ```
 dependencies {
-       implementation 'com.github.billuser:DepthView:v1.3'<br>
+       implementation 'com.github.billuser:DepthView:v1.3'
 }
 ```
 
@@ -50,3 +52,4 @@ mergeDepthView.setDepthViewHeigh(500); //深度圖高度
 
 ```
 
+![](https://github.com/billuser/DepthView/blob/master/photo/Webp.net-gifmaker.gif)
