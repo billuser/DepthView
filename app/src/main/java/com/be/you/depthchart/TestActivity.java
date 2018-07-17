@@ -1,5 +1,6 @@
 package com.be.you.depthchart;
 
+import android.graphics.Paint;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -105,6 +106,7 @@ public class TestActivity extends AppCompatActivity {
             depthView.setDepthBg("#ffffff");
             depthView.setYaxisTextSize(20);
             depthView.setXaxisTextSize(20);
+            depthView.setYAlign(Paint.Align.LEFT);
 //            depthView.setGridspace_width(20);
         } catch (JSONException e) {
             e.printStackTrace();

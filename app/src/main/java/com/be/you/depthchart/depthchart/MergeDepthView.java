@@ -73,6 +73,8 @@ public class MergeDepthView extends View {
     private Context mContext;
     private int spacingSell = 0;
     private Paint beelinePaint;
+    private DisplayMetrics monitorsize;
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -126,6 +128,10 @@ public class MergeDepthView extends View {
         mPaint_gridText.setTextSize(size);
     }
 
+    public void setYAlign(Paint.Align align){
+        mPaint_gridText.setTextAlign(align);
+    }
+
     /**
      * 設定深度圖高度
      * @param mHeigh
@@ -161,6 +167,8 @@ public class MergeDepthView extends View {
 
 
     private void init(Context context) {
+        monitorsize = new DisplayMetrics();
+        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(monitorsize);
         mapX = new HashMap<>();
         mapY = new HashMap<>();
         mPaint_bg = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -171,6 +179,7 @@ public class MergeDepthView extends View {
         beelinePaint.setColor(Color.argb(0x00,0x00,0x00,0x00));
         mPaint_gridText = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint_gridText.setColor(Color.parseColor("#000000"));
+        mPaint_gridText.setTextAlign(Paint.Align.RIGHT);
         mPaint_gridText.setTextSize(18);
         mPaint_brokenlineBuy = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint_brokenlineBuy.setColor(Color.parseColor("#5570a800"));
@@ -273,10 +282,6 @@ public class MergeDepthView extends View {
             max_value = (int)maxVolume;
         }
 
-
-
-//
-
         priceSortSell = mdataSell;
         dataSell = new ArrayList<>();
         //卖的数据不为空的时候才进行处理，否则会报空指针
@@ -353,11 +358,17 @@ public class MergeDepthView extends View {
             }
             String xPos = String.valueOf(value).replace(".","");
             int position = xPos.length() * 10;
-            canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)), position
-                    ,gridspace_heigh * (j + 1), mPaint_gridText);
+
+            if(mPaint_gridText.getTextAlign() == Paint.Align.LEFT){
+                canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)), monitorsize.widthPixels/15
+                        ,gridspace_heigh * (j + 1), mPaint_gridText);
+            }else{
+                canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)), (monitorsize.widthPixels - (monitorsize.widthPixels/15))
+                        ,gridspace_heigh * (j + 1), mPaint_gridText);
+            }
 
         }
-
+// TODO: 2018/7/17 aaaa 
         displayBuy(canvas);
         displaySell(canvas);
         canvas.restore();
@@ -515,11 +526,13 @@ public class MergeDepthView extends View {
                             (gridspace_width * i + count + 50) + spacingSell,
                             heigh - brokenline_bottom / 2,
                             mPaint_text);
+
                 }else{
                     canvas.drawText(data,
                             (gridspace_width * i + count) + spacingSell,
                             heigh - brokenline_bottom / 2,
                             mPaint_text);
+
                 }
             }
 
@@ -550,8 +563,7 @@ public class MergeDepthView extends View {
 //        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
 
-        DisplayMetrics monitorsize = new DisplayMetrics();
-        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(monitorsize);
+
 
         gridspace_width = (width / (dataBuy.size() + dataSell.size()));
         if(dataBuy.size() == 0){

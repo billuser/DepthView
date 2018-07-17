@@ -7,8 +7,8 @@ android {
 //        applicationId "com.be.you.depthchart"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 5
-        versionName "1.5"
+        versionCode 6
+        versionName "1.5.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
