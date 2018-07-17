@@ -227,84 +227,105 @@ public class MergeDepthView extends View {
         buyPrice = new ArrayList<>();
         priceSortBuy = mdataBuy;
         dataBuy = new ArrayList<>();
-        Collections.sort(priceSortBuy, new comparePriceBuy()); //價格排序由低至高
-        float fPrice = priceSortBuy.get(0).getPrice();
-        for(int i = 0; i < 3; i++){
-            switch (i){
-                case 0:
-                    fPrice = priceSortBuy.get(0).getPrice() * 0.9f;
-                    break;
-                case 1:
-                    fPrice = priceSortBuy.get(0).getPrice() * 0.96f;
-                    break;
-                case 2:
-                    fPrice = priceSortBuy.get(0).getPrice();
-                    break;
+
+        //买的数据不为空的时候才进行处理，否则会报空指针
+        if(priceSortBuy.size()>0){
+            Collections.sort(priceSortBuy, new comparePriceBuy()); //價格排序由低至高
+            float fPrice = priceSortBuy.get(0).getPrice();
+            for(int i = 0; i < 3; i++){
+                switch (i){
+                    case 0:
+                        fPrice = priceSortBuy.get(0).getPrice() * 0.9f;
+                        break;
+                    case 1:
+                        fPrice = priceSortBuy.get(0).getPrice() * 0.96f;
+                        break;
+                    case 2:
+                        fPrice = priceSortBuy.get(0).getPrice();
+                        break;
+                }
+
+                buyPrice.add(fPrice);
             }
 
-            buyPrice.add(fPrice);
-        }
-//        //加總數量
-        float vol = 0;
-        ArrayList<Float> arrVolume = new ArrayList<>();
-        for(int i = -1; i <= mdataBuy.size() - 1; i++){
-            DepthDataObject obj = new DepthDataObject();
-            if(i == mdataBuy.size() - 1){
-                vol += mdataBuy.get(i).getVolume();
-            }else{
-                vol += mdataBuy.get(i + 1).getVolume();
-            }
 
-            obj.setVolume(vol);
+            //加總數量
+            float vol = 0;
+            ArrayList<Float> arrVolume = new ArrayList<>();
+            for(int i = -1; i <= mdataBuy.size() - 1; i++){
+                DepthDataObject obj = new DepthDataObject();
+                if(i == mdataBuy.size() - 1){
+                    vol += mdataBuy.get(i).getVolume();
+                }else{
+                    vol += mdataBuy.get(i + 1).getVolume();
+                }
+
+                obj.setVolume(vol);
 //            obj.setPrice(mdataBuy.get(i + 1).getPrice());
-            arrVolume.add(vol);
-            dataBuy.add(obj);
+                arrVolume.add(vol);
+                LogUtils.e("vol---->",vol+"");
+                dataBuy.add(obj);
+            }
+
+            Collections.sort(dataBuy, new compare());
+            //調整圖表高度
+            maxVolume = Collections.max(arrVolume);
+            String count = String.valueOf((int)maxVolume);
+            max_value = (int)maxVolume;
         }
 
-        Collections.sort(dataBuy, new compare());
-        //調整圖表高度
-        maxVolume = Collections.max(arrVolume);
-        String count = String.valueOf((int)maxVolume);
-        max_value = (int)maxVolume;
+
+
+//
 
         priceSortSell = mdataSell;
         dataSell = new ArrayList<>();
-        Collections.sort(priceSortSell, new comparePriceSell());
-        float fsPrice = priceSortSell.get(0).getPrice();
-        for(int i = 0; i < 3; i++){
-            switch (i){
-                case 0:
-                    fsPrice = priceSortSell.get(0).getPrice();
-                    break;
-                case 1:
-                    fsPrice = priceSortSell.get(0).getPrice() * 1.04f;
-                    break;
-                case 2:
-                    fsPrice = priceSortSell.get(0).getPrice() * 1.09f;
-                    break;
+        //卖的数据不为空的时候才进行处理，否则会报空指针
+
+        if(priceSortSell.size()>0){
+            Collections.sort(priceSortSell, new comparePriceSell());
+            float fsPrice = priceSortSell.get(0).getPrice();
+            for(int i = 0; i < 3; i++){
+                switch (i){
+                    case 0:
+                        fsPrice = priceSortSell.get(0).getPrice();
+                        break;
+                    case 1:
+                        fsPrice = priceSortSell.get(0).getPrice() * 1.04f;
+                        break;
+                    case 2:
+                        fsPrice = priceSortSell.get(0).getPrice() * 1.09f;
+                        break;
+                }
+                buyPrice.add(fsPrice);
             }
-            buyPrice.add(fsPrice);
+
         }
 
-        float volsell = 0;
-        ArrayList<Float> arrSellVolume = new ArrayList<>();
-        for(int i = -1; i <= mdataSell.size() - 1; i++){
-            DepthDataObject obj = new DepthDataObject();
-            if(i == mdataSell.size() - 1){
+        //卖的数据不为空的时候才进行处理，否则会报空指针
 
-                volsell += mdataSell.get(i).getVolume();
-            }else{
-                volsell += mdataSell.get(i + 1).getVolume();
+        if(mdataSell.size()>0){
+            float volsell = 0;
+            ArrayList<Float> arrSellVolume = new ArrayList<>();
+            for(int i = -1; i <= mdataSell.size() - 1; i++){
+                DepthDataObject obj = new DepthDataObject();
+                if(i == mdataSell.size() - 1){
+
+                    volsell += mdataSell.get(i).getVolume();
+                }else{
+                    volsell += mdataSell.get(i + 1).getVolume();
+                }
+                obj.setVolume(volsell);
+                arrSellVolume.add(volsell);
+                dataSell.add(obj);
             }
-            obj.setVolume(volsell);
-            arrSellVolume.add(volsell);
-            dataSell.add(obj);
+            Collections.sort(dataSell, new compareSell());
+            if(maxVolume < Collections.max(arrSellVolume)){
+                maxVolume = Collections.max(arrSellVolume);
+                max_value = (int)maxVolume;
+            }
         }
-        Collections.sort(dataSell, new compareSell());
-        if(maxVolume < Collections.max(arrSellVolume)){
-            maxVolume = Collections.max(arrSellVolume);
-            max_value = (int)maxVolume;
-        }
+
         requestLayout();
         invalidate();
     }
@@ -315,7 +336,7 @@ public class MergeDepthView extends View {
         super.onDraw(canvas);
         mCanvas = canvas;
         canvas.save();
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.parseColor("#172432"));
         canvas.drawRect(0,0,width,heigh - brokenline_bottom, mPaint_bg);
         float multiple = maxVolume / lineCount;
         float value = maxVolume;
@@ -324,19 +345,43 @@ public class MergeDepthView extends View {
             canvas.drawLine(0,gridspace_heigh * (j + 1), width
                     ,gridspace_heigh * (j + 1), mPaint_gridline);
 
-                if(j == 0){
-                    value = maxVolume - multiple;
-                }else if(j == (lineCount -1)){
-                    value = 0;
-                }else{
-                    value -= multiple;
-                }
-                String xPos = String.valueOf(value).replace(".","");
-                int position = xPos.length() * 10;
-                canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)), position
-                        ,gridspace_heigh * (j + 1), mPaint_gridText);
+            if(j == 0){
+                value = maxVolume - multiple;
+            }else if(j == (lineCount -1)){
+                value = 0;
+            }else{
+                value -= multiple;
+            }
+
+            String xPos=String.valueOf(value).replace(".","");
+            int postion=(xPos.length())*10;
+
+            canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)), postion
+                    ,gridspace_heigh * (j + 1), mPaint_gridText);
 
         }
+
+//        for (int j = 0;j < lineCount; j++){
+//            //橫線
+//            canvas.drawLine(0,gridspace_heigh * (j + 1), width
+//                    ,gridspace_heigh * (j + 1), mPaint_gridline);
+//
+//            if(j == 0){
+//                value = maxVolume - multiple;
+//            }else if(j == (lineCount -1)){
+//                value = 0;
+//            }else{
+//                value -= multiple;
+//            }
+//            String xPos = String.valueOf(value).replace(".","");
+//            int position = xPos.length() * 10;
+//            canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)), position
+//                    ,gridspace_heigh * (j + 1), mPaint_gridText);
+//
+//        }
+
+
+//        canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)),postion,gridspace_heigh*(j+1));
 
         displayBuy(canvas);
         displaySell(canvas);
@@ -468,11 +513,22 @@ public class MergeDepthView extends View {
             String data = String.valueOf(buyPrice.get(0));
             if(i == 0 || i == (dataSell.size() - 1) || (i == (dataSell.size() - 1)/2)){
                 if(i == ((dataSell.size() - 1)/2)){
-                    data = String.valueOf(buyPrice.get(4));
+                    //判断是否有这么多数据，否则会报数组下标越界
+                    if(buyPrice.size()>5){
+                        data = String.valueOf(buyPrice.get(4));
+
+                    }
                 }else if(i == (dataSell.size() - 1)){
-                    data = String.valueOf(buyPrice.get(5));
+                    //判断是否有这么多数据，否则会报数组下标越界
+                    if(buyPrice.size()>6){
+                        data = String.valueOf(buyPrice.get(5));
+                    }
+
                 }else if(i == 0){
-                    data = String.valueOf(buyPrice.get(3));
+                    //判断是否有这么多数据，否则会报数组下标越界
+                    if(buyPrice.size()>4){
+                        data = String.valueOf(buyPrice.get(3));
+                    }
                 }
                 if(i == (dataSell.size() - 1)){
                     canvas.drawText(data,
