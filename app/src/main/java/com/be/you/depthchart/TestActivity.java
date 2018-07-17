@@ -32,7 +32,7 @@ public class TestActivity extends AppCompatActivity {
         depthView = new MergeDepthView(this);
         lineara.addView(depthView);
 //        depthView.setDepthViewHeigh(800);
-        jsonData = DepthData.depthR;
+        jsonData = DepthData.depthQ;
         newDepth();
 
 

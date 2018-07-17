@@ -331,7 +331,9 @@ public class MergeDepthView extends View {
                 }else{
                     value -= multiple;
                 }
-                canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)), 0
+                String xPos = String.valueOf(value).replace(".","");
+                int position = xPos.length() * 10;
+                canvas.drawText(MyBigDecimal.getValue(String.valueOf(value)), position
                         ,gridspace_heigh * (j + 1), mPaint_gridText);
 
         }
